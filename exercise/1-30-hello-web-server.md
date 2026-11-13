@@ -145,6 +145,10 @@ curl -i http://localhost:$PORT/api/hello
 ## 5. Test the server
 
 The tests start the app on port 0, which means "any free port", and call it with `fetch()`, which is built into Node.
+The tests do not use `$PORT`, so they work while your own server is running.
+
+### 5.1 The first tests
+
 Create `src/http-app.test.js`:
 
 ```js
@@ -176,11 +180,29 @@ test('an unknown path gives 404', async () => {
 })
 ```
 
-Run the tests with `npm test`, or only the app's tests with `npm test -- src`. Then add a test of your own
-for `GET /api/hello`: check the status, that the `content-type` header contains `application/json`, and the body.
+Run the tests with `npm test`, or only the app's tests with `npm test -- src`.
+
+Each test sends a request with `fetch()` and checks the response: `res.status` is the status code, and
+`await res.text()` reads the body as text.
+
+### 5.2 Test the JSON route
+
+Add a test of your own last in `src/http-app.test.js`, for `GET /api/hello`:
+
+```js
+test('GET /api/hello answers with JSON', async () => {
+  // 1. Send a request to /api/hello with fetch()
+  // 2. Check that the status is 200
+  // 3. Check that the content-type header contains application/json
+  // 4. Check that the body is { message: 'Hello World' }
+})
+```
+
+Hint: `res.headers.get('content-type')` gives the header as a string, and `assert.match()` checks a string against a
+regular expression. `await res.json()` reads the body and turns the JSON into data.
 
 <details>
-<summary>The test</summary>
+<summary>A solution</summary>
 
 ```js
 test('GET /api/hello answers with JSON', async () => {
@@ -191,7 +213,12 @@ test('GET /api/hello answers with JSON', async () => {
 })
 ```
 
+`/application\/json/` is a regular expression; the `\/` is a `/` that does not end it. `assert.match()` passes if the
+header contains the text anywhere, so it also works if the server adds `; charset=utf-8`.
+
 </details>
+
+Run `npm test -- src` again. All three tests should pass.
 
 ## Check and commit
 
