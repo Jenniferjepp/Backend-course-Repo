@@ -160,8 +160,8 @@ test('an unknown path gives 404', async () => {
 })
 ```
 
-Run the tests with `npm test`, or only the app's tests with `npm test -- src`. Then add a test of your own for `GET
-/api/hello`: check the status, that the `content-type` header contains `application/json`, and the body.
+Run the tests with `npm test`, or only the app's tests with `npm test -- src`. Then add a test of your own
+for `GET /api/hello`: check the status, that the `content-type` header contains `application/json`, and the body.
 
 <details>
 <summary>The test</summary>
