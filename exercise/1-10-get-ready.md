@@ -108,7 +108,16 @@ Open the repo in your editor and find these:
 
 ## 5. Pull new material from the template
 
-The teacher adds exercises during the course. Pull them like this, from the root of your repo:
+The teacher adds exercises and articles during the course. They arrive in `README.md`, `doc/` and `exercise/`, so
+leave those alone:
+
+- **Do not edit, move or delete** anything in `README.md`, `doc/` or `exercise/`. If you change a file there and the
+  teacher changes it too, the pull stops with a merge conflict.
+- **Want to take notes on an exercise?** Write them in your report, or in a file of your own outside those
+  directories, for example `notes.md` in the root.
+- **Commit your own work before you pull**, so your changes and the teacher's come in as separate commits.
+
+Pull from the root of your repo:
 
 ```bash
 git pull upstream main
