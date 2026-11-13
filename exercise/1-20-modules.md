@@ -342,6 +342,28 @@ printTasks()
 
 The output is the same as from the lecture code, but now the list lives in one file and the printing in another.
 
+### Think about it: where does `printTasks()` belong?
+
+`printTasks()` uses the list, so why not put it in `todo.js` next to the other functions? Think about it before you
+open the answer:
+
+- What if the list should be shown on a web page, or sent as JSON from a server, instead of printed in the terminal?
+- How would you write a test for `printTasks()`, compared with a test for `getTasks()`?
+
+<details>
+<summary>One way to see it</summary>
+
+The module answers *what* is in the list; the caller decides *how* to show it. `getTasks()` returns an array that a
+terminal program, a web page and a JSON API can all use. A `printTasks()` inside `todo.js` would tie the module to the
+terminal, and you would need another function for each new way of showing the list. It is also harder to test: a test
+can compare the array from `getTasks()` with what it expects, but the only result of `printTasks()` is text on the
+screen.
+
+The idea has a name, *separation of concerns*: each part of the code has one job. You meet it again in 1-30, where the
+same kind of data is sent as JSON, and in the coming weeks with routes and views in Express.
+
+</details>
+
 ## 4. Catch an error
 
 `deleteTask()` throws when the number is wrong. Add this last in `main.js` and run it again:
