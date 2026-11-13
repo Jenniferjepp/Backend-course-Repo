@@ -93,13 +93,17 @@ terminal and try again.
 
 ## Configure Git
 
-Git puts your name and email in every commit. Set them once:
+Git puts your name and email in every commit. Set them once, together with two settings the course needs:
 
 ```bash
 git config --global user.name "Your Name"
 git config --global user.email "you@example.com"
 git config --global init.defaultBranch main
+git config --global pull.rebase false
 ```
+
+`pull.rebase false` tells `git pull` to merge the new material into your own commits. Without it, Git stops and asks
+how to do it the first time you pull new exercises.
 
 If you push to GitHub or GitLab, use the email of that account, so your commits are linked to you there.
 
@@ -175,7 +179,8 @@ A short round to see that everything works together.
 ### Verify
 
 - [ ] `node --version` shows v26 or later, and `git`, `npm` and `curl` answer with a version.
-- [ ] `git config --global user.name` and `user.email` show your name and email.
+- [ ] `git config --global user.name` and `user.email` show your name and email, and `git config pull.rebase` shows
+  `false`.
 - [ ] If you set up an SSH key: `ssh -T git@github.com` (or `gitlab.com`) greets you with your user name.
 - [ ] You work in a bash terminal (Git Bash on Windows), also inside your editor.
 

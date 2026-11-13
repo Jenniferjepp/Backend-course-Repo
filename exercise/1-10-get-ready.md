@@ -129,6 +129,11 @@ git pull upstream main
 Do it now. You get "Already up to date" if nothing is new. If you have a remote of your own, `git push` afterwards
 sends the new material there too.
 
+Later in the course you have commits of your own when you pull. Then Git merges the new material with your work and
+makes a *merge commit*. It may open an editor with a message for it; the message is fine as it is, so save and close
+the editor. In Vim, the default editor of Git Bash, type `:wq` and press Enter. To skip the editor, pull with
+`git pull --no-edit upstream main`.
+
 ## Check and commit
 
 Start your report for the week: write a few lines in `report/week-01.md` about yourself and your setup (operating
@@ -157,6 +162,18 @@ help pages of GitHub or GitLab, "SSH keys"), or switch to the HTTPS address:
 
 ```bash
 git remote set-url origin <https-url-of-your-repo>
+```
+
+</details>
+
+<details>
+<summary><code>git pull</code> says "Need to specify how to reconcile divergent branches"</summary>
+
+Git does not know whether to merge or rebase your commits with the new ones. Tell it to merge, once, and pull again:
+
+```bash
+git config --global pull.rebase false
+git pull upstream main
 ```
 
 </details>

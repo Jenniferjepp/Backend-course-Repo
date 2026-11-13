@@ -100,7 +100,8 @@ displayTasks();
    npm run check
    ```
 
-   Prettier complains about the format. Run `npm run format`, open the file again and see what changed.
+   Prettier complains about the format; ESLint has nothing to say about this code. Run `npm run format`, open the file
+   again and see what changed.
 
 The code works, but it is hard to reuse and hard to test: the only result of a function is text on the screen. That is
 what you change.
@@ -340,7 +341,8 @@ printTasks()
 
 </details>
 
-The output is the same as from the lecture code, but now the list lives in one file and the printing in another.
+The output is almost the same as from the lecture code, but now the list lives in one file and the printing in
+another.
 
 ## 4. Catch an error
 
@@ -397,7 +399,7 @@ export function getTasksAsJson() {
 
 ### 5.2 Print the JSON from the main program
 
-Import `getTasksAsJson` in `main.js` and print what it returns, last in the file. Run it; the output ends with:
+Import `getTasksAsJson` in `main.js` and print what it returns, last in the file. Run it; the output now ends with:
 
 ```text
 [
@@ -461,6 +463,59 @@ function printTasksFromJson() {
 and last in the file:
 
 ```js
+printTasksFromJson()
+```
+
+</details>
+
+<details>
+<summary>The whole <code>main.js</code> after step 5</summary>
+
+```js
+import { addTask, getTasks, deleteTask, getTasksAsJson } from './todo.js'
+
+function printTasks() {
+  const tasks = getTasks()
+  if (tasks.length === 0) {
+    console.log('Your to-do list is empty.')
+    return
+  }
+  console.log('Your to-do list:')
+  for (let i = 0; i < tasks.length; i++) {
+    console.log(`${i + 1}. ${tasks[i]}`)
+  }
+  // The same loop, written shorter with forEach and an arrow function:
+  // tasks.forEach((task, index) => console.log(`${index + 1}. ${task}`))
+}
+
+function printTasksFromJson() {
+  const list = JSON.parse(getTasksAsJson())
+  if (list.length === 0) {
+    console.log('Your to-do list is empty.')
+    return
+  }
+  console.log('Your to-do list:')
+  for (let i = 0; i < list.length; i++) {
+    console.log(`${list[i].number}. ${list[i].task}`)
+  }
+}
+
+addTask('Wash clothes')
+addTask('Do the dishes')
+addTask('Go for a walk')
+printTasks()
+
+const removed = deleteTask(2)
+console.log(`Task "${removed}" was removed.`)
+printTasks()
+
+try {
+  deleteTask(42)
+} catch (error) {
+  console.log(error.message)
+}
+
+console.log(getTasksAsJson())
 printTasksFromJson()
 ```
 
