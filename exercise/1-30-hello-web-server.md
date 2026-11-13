@@ -177,7 +177,7 @@ test('GET /api/hello answers with JSON', async () => {
 
 </details>
 
-## Check and push
+## Check and commit
 
 Stop the server with `Ctrl+C`, then:
 
@@ -185,8 +185,9 @@ Stop the server with `Ctrl+C`, then:
 npm run check
 git add src
 git commit -m "1-30 Hello World with node:http"
-git push
 ```
+
+If you have a remote of your own, push with `git push`.
 
 ### Verify
 
@@ -220,7 +221,7 @@ to? That is the problem Express solves next week.
 ## Write your report
 
 This was the last exercise of the week. Write your report in `report/week-01.md`: [report/README.md](../report/README.md)
-tells you how, and the week page in Canvas has the points for the week. Commit and push it.
+tells you how, and the week page in Canvas has the points for the week. Commit it.
 
 ## Read more
 

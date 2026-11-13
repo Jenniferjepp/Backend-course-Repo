@@ -12,4 +12,4 @@ The week page in Canvas ends with a few points under **Weekly report** that brin
 week and can help you get started. You do not need to cover all of them, and you do not need to follow the order: a
 coherent text is better than answers to questions.
 
-Commit and push the report like any other file.
+Commit the report like any other file.

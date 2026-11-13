@@ -276,16 +276,17 @@ test('deleteTask throws on a number outside the list', () => {
 
 </details>
 
-## Check and push
+## Check and commit
 
-Remove `lecture.js` if you like, it has done its job. Then run all checks and push:
+Remove `lecture.js` if you like, it has done its job. Then run all checks and commit:
 
 ```bash
 npm run check
 git add practice/1-20
 git commit -m "1-20 Split the to-do list into a module"
-git push
 ```
+
+If you have a remote of your own, push with `git push`.
 
 ### Verify
 

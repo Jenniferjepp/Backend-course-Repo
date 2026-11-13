@@ -2,7 +2,7 @@
 
 You install the tools the course uses and check that they work. Everyone in the course works in a **bash terminal**,
 whatever the operating system, so the commands in the exercises work the same for all of us. At the end you have
-Node.js, Git, `curl`, an editor and an SSH key on GitHub or GitLab.
+Node.js, Git, `curl` and an editor, and if you want to push your repo somewhere, an SSH key on GitHub or GitLab.
 
 This is what you end up with:
 
@@ -13,7 +13,7 @@ This is what you end up with:
 | Node.js 24 or later, with npm | Running JavaScript and installing packages | `node --version`, `npm --version` |
 | `curl` | Sending HTTP requests from the terminal | `curl --version` |
 | An editor, for example VS Code | Writing code | |
-| An account on GitHub or GitLab, with an SSH key | Pushing your repo | `ssh -T git@github.com` |
+| Optional: an account on GitHub or GitLab, with an SSH key | Pushing your repo, if you want to | `ssh -T git@github.com` |
 
 ## Background: why bash
 
@@ -101,9 +101,12 @@ git config --global user.email "you@example.com"
 git config --global init.defaultBranch main
 ```
 
-Use the email of your GitHub or GitLab account, so your commits are linked to you there.
+If you push to GitHub or GitLab, use the email of that account, so your commits are linked to you there.
 
-## Create an SSH key and add it to GitHub or GitLab
+## Optional: create an SSH key and add it to GitHub or GitLab
+
+You only need this if you want to push your repo to GitHub, GitLab or a similar service; the course does not require
+it, and you can do it later.
 
 An SSH key lets you push to your repo without typing a password. You create a key pair: the private key stays on your
 computer, the public key goes to GitHub or GitLab.
@@ -173,7 +176,7 @@ A short round to see that everything works together.
 
 - [ ] `node --version` shows v24 or later, and `git`, `npm` and `curl` answer with a version.
 - [ ] `git config --global user.name` and `user.email` show your name and email.
-- [ ] `ssh -T git@github.com` (or `gitlab.com`) greets you with your user name.
+- [ ] If you set up an SSH key: `ssh -T git@github.com` (or `gitlab.com`) greets you with your user name.
 - [ ] You work in a bash terminal (Git Bash on Windows), also inside your editor.
 
 <details>
