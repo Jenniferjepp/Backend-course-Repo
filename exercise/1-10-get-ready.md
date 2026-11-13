@@ -24,15 +24,8 @@ flowchart LR
 
 ## Before you start
 
-You need these installed. Check the versions in a terminal:
-
-```bash
-node --version   # v22 or later
-npm --version
-git --version
-```
-
-Install Node.js (the LTS version) from https://nodejs.org/ if it is missing or older than v22.
+You need the tools from [1-05 Lab environment](1-05-lab-environment.md): a bash terminal (Git Bash on Windows), Git,
+Node.js 22 or later, and an SSH key on GitHub or GitLab.
 
 ## 1. Create your own repo
 

@@ -4,7 +4,9 @@ Your own repo for the course. You build an app in `src/` week by week, do smalle
 short report each week in `report/`. The week plan (what to prepare, the Friday agenda, deadlines) is in Canvas; it
 links to the exercises and articles here.
 
-Start with [exercise 1-10](exercise/1-10-get-ready.md): it sets up your own copy of this repo.
+Start with [exercise 1-05](exercise/1-05-lab-environment.md), which installs the tools, then
+[1-10](exercise/1-10-get-ready.md), which sets up your own copy of this repo. All commands in the course are run in a
+bash terminal: Git Bash on Windows.
 
 ## Who writes what
 
