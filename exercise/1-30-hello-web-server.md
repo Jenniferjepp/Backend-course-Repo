@@ -9,10 +9,13 @@ When you are done, `src/` has three files:
 
 ```
 src/
-├── app.js        creates the server and decides what to answer
-├── app.test.js   tests that call the server over HTTP
-└── server.js     starts the server on a port
+├── http-app.js        creates the server and decides what to answer
+├── http-app.test.js   tests that call the server over HTTP
+└── http-server.js     starts the server on a port
 ```
+
+The names start with `http-` because this server uses `node:http`. Next week the app moves to Express in `app.js` and
+`server.js`, and this week's server stays next to it, so you can compare the two.
 
 ## Background: request and response
 
@@ -35,14 +38,14 @@ gives what answer is up to you. Next week Express takes over that part.
 
 ## 1. See where you are
 
-`package.json` already has two scripts for the app: `npm start` runs `node src/server.js`, and `npm run dev` runs it
-with `--watch`, so the server restarts when you save a file. Neither works yet, since `src/server.js` does not exist.
+`package.json` has two scripts for the app, `npm start` and `npm run dev`. They start `src/server.js`, which is the
+Express app from next week, so they do not work yet. This week you start the server with `node` directly.
 
 ## 2. Create the app
 
-`app.js` creates the server but does not start it. Keeping the two apart lets the tests start their own server.
+`http-app.js` creates the server but does not start it. Keeping the two apart lets the tests start their own server.
 
-Create `src/app.js`:
+Create `src/http-app.js`:
 
 ```js
 import http from 'node:http'
@@ -66,10 +69,10 @@ makes sure only one response is sent.
 
 ## 3. Start the server
 
-`server.js` starts the app on a port. Create `src/server.js`:
+`http-server.js` starts the app on a port. Create `src/http-server.js`:
 
 ```js
-import { createApp } from './app.js'
+import { createApp } from './http-app.js'
 
 const port = process.env.PORT ?? 3000
 
@@ -80,10 +83,10 @@ createApp().listen(port, () => {
 
 `process.env.PORT ?? 3000` uses the port from the environment variable `PORT` if it is set, otherwise 3000.
 
-Start it in dev mode:
+Start it with `--watch`, so the server restarts when you save a file:
 
 ```bash
-npm run dev
+node --watch src/http-server.js
 ```
 
 Open http://localhost:3000/ in the browser, then try it from a second terminal:
@@ -97,8 +100,8 @@ curl -i http://localhost:3000/nope
 
 ## 4. Answer with JSON
 
-An API answers with JSON instead of text. Add a route for `GET /api/hello` in `src/app.js`, after the route for `/`,
-that answers status 200 with this body:
+An API answers with JSON instead of text. Add a route for `GET /api/hello` in `src/http-app.js`, after the route for
+`/`, that answers status 200 with this body:
 
 ```json
 { "message": "Hello World" }
@@ -129,12 +132,12 @@ curl -i http://localhost:3000/api/hello
 ## 5. Test the server
 
 The tests start the app on port 0, which means "any free port", and call it with `fetch()`, which is built into Node.
-Create `src/app.test.js`:
+Create `src/http-app.test.js`:
 
 ```js
 import { test, before, after } from 'node:test'
 import assert from 'node:assert/strict'
-import { createApp } from './app.js'
+import { createApp } from './http-app.js'
 
 let server
 let baseUrl
@@ -191,24 +194,25 @@ If you have a remote of your own, push with `git push`.
 
 ### Verify
 
-- [ ] `npm start` starts the server, and `/`, `/api/hello` and `/nope` answer as they should in the browser and with
-      `curl -i`.
+- [ ] `node src/http-server.js` starts the server, and `/`, `/api/hello` and `/nope` answer as they should in the
+      browser and with `curl -i`.
 - [ ] `npm run check` passes, with your test for `/api/hello` included.
 - [ ] You can explain method, path, status code, `Content-Type` and body, using the output of `curl -i`.
-- [ ] You can say why `app.js` and `server.js` are two files.
+- [ ] You can say why `http-app.js` and `http-server.js` are two files.
 
 <details>
 <summary><code>Error: listen EADDRINUSE: address already in use :::3000</code></summary>
 
 A server is already running on port 3000, maybe in another terminal. Stop it with `Ctrl+C`, or start on another port:
-`PORT=3001 npm start`.
+`PORT=3001 node src/http-server.js`.
 
 </details>
 
 <details>
 <summary>The browser shows the old answer after you changed the code</summary>
 
-`npm start` does not restart on changes. Use `npm run dev`, or stop and start the server again.
+`node src/http-server.js` without `--watch` does not restart on changes. Use `node --watch src/http-server.js`, or
+stop and start the server again.
 
 </details>
 
