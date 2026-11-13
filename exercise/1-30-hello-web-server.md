@@ -280,5 +280,6 @@ tells you how, and the week page in Canvas has the points for the week. Commit i
 ## Read more
 
 - The recorded lectures in Canvas for this week.
+- [Testing with Node.js](../doc/testing-with-node.md), the section "Testing a web server".
 - HTTP in Node.js: https://nodejs.org/api/http.html
 - An overview of HTTP: https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Overview

@@ -717,5 +717,7 @@ changes in the tests? Do you still need `clearTasks()`?
 ## Read more
 
 - The recorded lectures 2 and 3 in Canvas.
+- [ES modules in Node.js](../doc/es-modules.md), the course's article on `import` and `export`.
+- [Testing with Node.js](../doc/testing-with-node.md), the course's article on `node:test` and `assert`.
 - Modules in JavaScript: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules
 - Node's test runner: https://nodejs.org/api/test.html
