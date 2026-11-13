@@ -12,6 +12,9 @@ The template is a small Node.js project that is already set up. It is split in t
 |---|---|
 | `README.md`, `doc/`, `exercise/` | everything else: `src/`, `public/`, `practice/`, `report/`, the config files |
 
+The files you get in your part at the start (the report templates, `package.json`, the config files) are given once
+and never updated by the teacher, so they are yours to change.
+
 Your repo has two remotes. `origin` is your own repo, where you push your work. `upstream` is the template, where you
 pull new exercises and articles from. Since you never edit the teacher's files, a pull from `upstream` does not give
 you conflicts.
