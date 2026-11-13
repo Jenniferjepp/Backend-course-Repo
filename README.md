@@ -13,3 +13,5 @@ The week plan (what to prepare, the Friday agenda, deadlines) is in Canvas. Star
 | `public/` | Static files for the app: HTML, CSS, images |
 | [`practice/`](practice/README.md) | Small exercises that stand on their own, one directory each |
 | [`report/`](report/README.md) | My weekly reports |
+
+`CLAUDE.md` (and `AGENTS.md`, which points to it) tells an AI assistant about this repo and how to help me learn.

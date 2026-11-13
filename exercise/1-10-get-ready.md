@@ -9,7 +9,7 @@ The template is a small Node.js project that is already set up. It is split in t
 
 | The teacher updates (do not edit) | You write |
 |---|---|
-| `doc/`, `exercise/` | everything else: `src/`, `public/`, `practice/`, `report/`, `README.md`, the config files |
+| `doc/`, `exercise/` | everything else: `src/`, `public/`, `practice/`, `report/`, `README.md`, `CLAUDE.md`, the config files |
 
 The files you get in your part at the start (`README.md`, the report templates, `package.json`, the config files)
 are given once and never updated by the teacher, so they are yours to change.
@@ -105,6 +105,8 @@ Open the repo in your editor and find these:
 - `practice/`: small exercises that stand on their own, one directory each.
 - `report/`: one report per week. You fill in `week-01.md` at the end of this week.
 - `exercise/` and `doc/`: the exercises and articles. New ones arrive each week.
+- `CLAUDE.md` and `AGENTS.md`: context for an AI assistant (Claude Code, Codex, Copilot and others), so it helps you
+  learn instead of writing your code. Read `CLAUDE.md` once; it is yours to change.
 
 ## 5. Pull new material from the template
 
