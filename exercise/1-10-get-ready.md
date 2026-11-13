@@ -25,7 +25,7 @@ flowchart LR
 ## Before you start
 
 You need the tools from [1-05 Lab environment](1-05-lab-environment.md): a bash terminal (Git Bash on Windows), Git,
-Node.js 22 or later, and an SSH key on GitHub or GitLab.
+Node.js 24 or later, and an SSH key on GitHub or GitLab.
 
 ## 1. Create your own repo
 

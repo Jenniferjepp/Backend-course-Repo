@@ -10,7 +10,7 @@ This is what you end up with:
 |---|---|---|
 | A bash terminal | Running every command in the course | `bash --version` |
 | Git | Version control, your repo | `git --version` |
-| Node.js 22 or later, with npm | Running JavaScript and installing packages | `node --version`, `npm --version` |
+| Node.js 24 or later, with npm | Running JavaScript and installing packages | `node --version`, `npm --version` |
 | `curl` | Sending HTTP requests from the terminal | `curl --version` |
 | An editor, for example VS Code | Writing code | |
 | An account on GitHub or GitLab, with an SSH key | Pushing your repo | `ssh -T git@github.com` |
@@ -83,7 +83,7 @@ You are in your bash terminal. Run each command and check the result:
 ```bash
 bash --version   # any version
 git --version    # any recent version
-node --version   # v22 or later
+node --version   # v24 or later
 npm --version    # comes with Node
 curl --version   # any version
 ```
@@ -171,7 +171,7 @@ A short round to see that everything works together.
 
 ### Verify
 
-- [ ] `node --version` shows v22 or later, and `git`, `npm` and `curl` answer with a version.
+- [ ] `node --version` shows v24 or later, and `git`, `npm` and `curl` answer with a version.
 - [ ] `git config --global user.name` and `user.email` show your name and email.
 - [ ] `ssh -T git@github.com` (or `gitlab.com`) greets you with your user name.
 - [ ] You work in a bash terminal (Git Bash on Windows), also inside your editor.
@@ -185,7 +185,7 @@ computer, so Windows updates the `PATH`.
 </details>
 
 <details>
-<summary><code>node --version</code> shows v18 or older</summary>
+<summary><code>node --version</code> shows v22 or older</summary>
 
 An old Node is installed and found first. On Linux, install with nvm as above and run `nvm use --lts`. On Windows and
 macOS, install the LTS version from nodejs.org again; it replaces the old one.
