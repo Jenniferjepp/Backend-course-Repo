@@ -86,7 +86,7 @@ It runs three things, all of which should pass:
 |---|---|---|
 | `npm run lint` | ESLint (`eslint.config.js`) | Finds errors and suspicious code |
 | `npm run format:check` | Prettier (`.prettierrc`) | Checks that the code follows one format: no semicolons, single quotes, 2 spaces |
-| `npm test` | Node's built-in test runner | Runs every `*.test.js` file. There are none yet |
+| `npm test` | Node's built-in test runner | Runs every `*.test.js` file. There are none yet. `npm test -- src` runs only those in `src/` |
 
 Two more scripts help you fix what the checks find:
 

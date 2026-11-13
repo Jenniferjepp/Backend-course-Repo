@@ -520,6 +520,12 @@ Run the tests:
 npm test
 ```
 
+`npm test` runs every test file in the repo. To run only the tests of this exercise, give the directory after `--`:
+
+```bash
+npm test -- practice/1-20
+```
+
 Then add three tests of your own: that `deleteTask()` removes the right task and returns it, that it throws on a
 number outside the list, and that `getTasksAsJson()` returns the list numbered from 1. Remember to import the
 functions the tests use.
