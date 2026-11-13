@@ -248,7 +248,8 @@ Your to-do list:
 3. Go for a walk
 ```
 
-Hint: `tasks.forEach((task, index) => ...)` gives you each task and its index, which starts at 0.
+Hint: a `for` loop with `i` from 0 to `tasks.length - 1` gives you each task as `tasks[i]`. The index starts at
+0, so the number to print is `i + 1`.
 
 <details>
 <summary>A solution</summary>
@@ -261,7 +262,11 @@ function printTasks() {
     return
   }
   console.log('Your to-do list:')
-  tasks.forEach((task, index) => console.log(`${index + 1}. ${task}`))
+  for (let i = 0; i < tasks.length; i++) {
+    console.log(`${i + 1}. ${tasks[i]}`)
+  }
+  // The same loop, written shorter with forEach and an arrow function:
+  // tasks.forEach((task, index) => console.log(`${index + 1}. ${task}`))
 }
 ```
 
@@ -316,7 +321,11 @@ function printTasks() {
     return
   }
   console.log('Your to-do list:')
-  tasks.forEach((task, index) => console.log(`${index + 1}. ${task}`))
+  for (let i = 0; i < tasks.length; i++) {
+    console.log(`${i + 1}. ${tasks[i]}`)
+  }
+  // The same loop, written shorter with forEach and an arrow function:
+  // tasks.forEach((task, index) => console.log(`${index + 1}. ${task}`))
 }
 
 addTask('Wash clothes')
