@@ -9,10 +9,10 @@ The template is a small Node.js project that is already set up. It is split in t
 
 | The teacher updates (do not edit) | You write |
 |---|---|
-| `README.md`, `doc/`, `exercise/` | everything else: `src/`, `public/`, `practice/`, `report/`, the config files |
+| `doc/`, `exercise/` | everything else: `src/`, `public/`, `practice/`, `report/`, `README.md`, the config files |
 
-The files you get in your part at the start (the report templates, `package.json`, the config files) are given once
-and never updated by the teacher, so they are yours to change.
+The files you get in your part at the start (`README.md`, the report templates, `package.json`, the config files)
+are given once and never updated by the teacher, so they are yours to change.
 
 Your repo has a remote called `upstream`: the template, where you pull new exercises and articles from. Since you
 never edit the teacher's files, a pull from `upstream` does not give you conflicts.
@@ -108,10 +108,10 @@ Open the repo in your editor and find these:
 
 ## 5. Pull new material from the template
 
-The teacher adds exercises and articles during the course. They arrive in `README.md`, `doc/` and `exercise/`, so
-leave those alone:
+The teacher adds exercises and articles during the course. They arrive in `doc/` and `exercise/`, so leave those
+alone:
 
-- **Do not edit, move or delete** anything in `README.md`, `doc/` or `exercise/`. If you change a file there and the
+- **Do not edit, move or delete** anything in `doc/` or `exercise/`. If you change a file there and the
   teacher changes it too, the pull stops with a merge conflict.
 - **Want to take notes on an exercise?** Write them in your report, or in a file of your own outside those
   directories, for example `notes.md` in the root.
@@ -161,7 +161,7 @@ git remote set-url origin <https-url-of-your-repo>
 <details>
 <summary><code>git pull upstream main</code> gives a merge conflict</summary>
 
-You have edited a file the teacher also changed, one in `README.md`, `doc/` or `exercise/`. Take the teacher's version
+You have edited a file the teacher also changed, one in `doc/` or `exercise/`. Take the teacher's version
 of that file and finish the merge:
 
 ```bash
