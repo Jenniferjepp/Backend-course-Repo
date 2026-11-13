@@ -489,12 +489,14 @@ server sends JSON, and in the coming weeks with routes and views in Express.
 A test calls a function and checks the result. Since the module returns values instead of printing, it is easy to
 test. Node has a test runner built in: `node:test` runs the tests and `node:assert` checks the results.
 
+### 6.1 The first tests
+
 Create `practice/1-20/todo.test.js` next to the module:
 
 ```js
 import { test, beforeEach } from 'node:test'
 import assert from 'node:assert/strict'
-import { addTask, getTasks, deleteTask, clearTasks } from './todo.js'
+import { addTask, getTasks, clearTasks } from './todo.js'
 
 // The list lives in the module, so empty it before each test.
 beforeEach(() => clearTasks())
@@ -526,12 +528,25 @@ npm test
 npm test -- practice/1-20
 ```
 
-Then add three tests of your own: that `deleteTask()` removes the right task and returns it, that it throws on a
-number outside the list, and that `getTasksAsJson()` returns the list numbered from 1. Remember to import the
-functions the tests use.
+Each `test()` has a name that says what should be true, and a function that sets things up and checks the result. The
+name is what you see in the output when a test fails.
+
+### 6.2 Test that `deleteTask()` removes a task
+
+Add a test last in `todo.test.js`. Import `deleteTask` too, on the `import` line from `./todo.js`.
+
+```js
+test('deleteTask removes by number, starting at 1', () => {
+  // 1. Add two tasks
+  // 2. Delete task number 1 and check that it returns the first task
+  // 3. Check that only the second task is left in the list
+})
+```
+
+Run `npm test -- practice/1-20` and see your test pass.
 
 <details>
-<summary>The three tests</summary>
+<summary>A solution</summary>
 
 ```js
 test('deleteTask removes by number, starting at 1', () => {
@@ -540,12 +555,57 @@ test('deleteTask removes by number, starting at 1', () => {
   assert.equal(deleteTask(1), 'Wash clothes')
   assert.deepEqual(getTasks(), ['Do the dishes'])
 })
+```
 
+`assert.equal()` compares single values, like the string `deleteTask()` returns. `assert.deepEqual()` compares the
+content of arrays and objects.
+
+</details>
+
+### 6.3 Test that `deleteTask()` throws
+
+Add a test that `deleteTask()` throws when the number is outside the list.
+
+```js
+test('deleteTask throws on a number outside the list', () => {
+  // 1. Add one task
+  // 2. Check that deleting task number 2 throws an error
+})
+```
+
+Hint: look at the test `addTask throws on an empty task` above.
+
+<details>
+<summary>A solution</summary>
+
+```js
 test('deleteTask throws on a number outside the list', () => {
   addTask('Wash clothes')
   assert.throws(() => deleteTask(2), /valid task number/)
 })
+```
 
+`assert.throws()` takes a function, not a call: `() => deleteTask(2)`. It calls the function itself and checks that it
+throws, and the regular expression `/valid task number/` checks the error message.
+
+</details>
+
+### 6.4 Test `getTasksAsJson()`
+
+Add a test that `getTasksAsJson()` returns the list numbered from 1. Import `getTasksAsJson` too.
+
+```js
+test('getTasksAsJson returns the list as JSON, numbered from 1', () => {
+  // 1. Add one task
+  // 2. Turn the JSON string back into data with JSON.parse()
+  // 3. Check that it is an array with one object: { number: 1, task: ... }
+})
+```
+
+<details>
+<summary>A solution</summary>
+
+```js
 test('getTasksAsJson returns the list as JSON, numbered from 1', () => {
   addTask('Wash clothes')
   assert.deepEqual(JSON.parse(getTasksAsJson()), [{ number: 1, task: 'Wash clothes' }])
@@ -555,6 +615,8 @@ test('getTasksAsJson returns the list as JSON, numbered from 1', () => {
 `JSON.parse()` turns the string back into data, so the test compares the content and not the spaces.
 
 </details>
+
+Run all the tests of the exercise again with `npm test -- practice/1-20`. All of them should pass.
 
 ## Check and commit
 
