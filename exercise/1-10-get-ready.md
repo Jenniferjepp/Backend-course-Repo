@@ -39,7 +39,7 @@ You are in the terminal, in the directory where you keep your course work. Clone
 `intro-backend`, then rename its remote from `origin` to `upstream`, since it is where new material comes from:
 
 ```bash
-git clone <url-of-the-template> intro-backend
+git clone https://gitlab.com/mikael-roos/intro-backend/template.git intro-backend
 cd intro-backend
 git remote rename origin upstream
 git remote -v
