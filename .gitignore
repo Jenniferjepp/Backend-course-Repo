@@ -1,3 +1,15 @@
+# Dependencies, installed with npm install
 node_modules/
+
+# Secrets: keep them in .env, commit only .env.example
 .env
+.env.*
+!.env.example
+
+# Generated
+coverage/
 *.log
+
+# OS files
+.DS_Store
+Thumbs.db

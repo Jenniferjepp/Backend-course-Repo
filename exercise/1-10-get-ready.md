@@ -30,7 +30,7 @@ flowchart LR
 ## Before you start
 
 You need the tools from [1-05 Lab environment](1-05-lab-environment.md): a bash terminal (Git Bash on Windows), Git,
-Node.js 24 or later. An account and an SSH key on GitHub or GitLab are only needed if you want to push your repo
+Node.js 26 or later. An account and an SSH key on GitHub or GitLab are only needed if you want to push your repo
 there.
 
 ## 1. Clone the template
@@ -70,7 +70,8 @@ You are in the root of your repo. Install the packages the project uses:
 npm install
 ```
 
-This reads `package.json` and puts the packages in `node_modules/`. That directory is not committed (see
+This reads `package.json` and puts the packages in `node_modules/`. If it stops with `EBADENGINE`, your Node.js is
+older than the course needs: go back to 1-05 and install v26. That directory is not committed (see
 `.gitignore`); anyone who clones the repo runs `npm install` instead.
 
 Open `package.json` and look at `scripts`. Run the check:

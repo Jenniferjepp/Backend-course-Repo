@@ -62,7 +62,7 @@ Be careful with:
 ## Conventions in this repo
 
 - Everything is in English: code, comments, docs, commit messages.
-- Node.js 24 or later, ESM (`import`/`export`), Express 5. The lectures sometimes show CommonJS (`require`); this repo
+- Node.js 26 or later, ESM (`import`/`export`), Express 5. The lectures sometimes show CommonJS (`require`); this repo
   uses ESM.
 - Work through the exercises in order; each builds on the one before, so do not add parts of later exercises early.
 - `npm run check` runs ESLint, Prettier and the tests. Prettier with no semicolons and single quotes. Tests use Node's

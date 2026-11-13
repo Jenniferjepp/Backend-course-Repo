@@ -10,7 +10,7 @@ This is what you end up with:
 |---|---|---|
 | A bash terminal | Running every command in the course | `bash --version` |
 | Git | Version control, your repo | `git --version` |
-| Node.js 24 or later, with npm | Running JavaScript and installing packages | `node --version`, `npm --version` |
+| Node.js 26 or later, with npm | Running JavaScript and installing packages | `node --version`, `npm --version` |
 | `curl` | Sending HTTP requests from the terminal | `curl --version` |
 | An editor, for example VS Code | Writing code | |
 | Optional: an account on GitHub or GitLab, with an SSH key | Pushing your repo, if you want to | `ssh -T git@github.com` |
@@ -35,7 +35,7 @@ Do the part for your operating system, then continue at "Configure Git".
 1. **Git and Git Bash.** Download Git for Windows from https://git-scm.com/downloads/win and install it. The default
    choices are fine, with one exception: when asked about the default editor, pick one you know (for example Visual
    Studio Code or Nano) instead of Vim.
-2. **Node.js.** Download the LTS installer (the `.msi`) from https://nodejs.org/ and install it with the default
+2. **Node.js.** Download the installer for v26 LTS (the `.msi`) from https://nodejs.org/ and install it with the default
    choices.
 3. **The editor.** Install VS Code from https://code.visualstudio.com/.
 4. **Open Git Bash** from the Start menu. Open it after the installs, so it finds the new programs.
@@ -55,7 +55,7 @@ and pick "Git Bash". A new terminal in VS Code (`` Ctrl+` ``) is then a Git Bash
 
    This installs Apple's command line tools, Git among them. If it says they are already installed, you are done.
 
-2. **Node.js.** Download the LTS installer (the `.pkg`) from https://nodejs.org/ and install it.
+2. **Node.js.** Download the installer for v26 LTS (the `.pkg`) from https://nodejs.org/ and install it.
 3. **The editor.** Install VS Code from https://code.visualstudio.com/.
 
 `curl` is already installed. If you use Homebrew, `brew install git node` works as well.
@@ -73,7 +73,7 @@ with nvm, the Node Version Manager.
    ```
 
 2. **Node.js with nvm.** Follow the "Linux" tab with nvm on https://nodejs.org/en/download, which installs nvm and
-   then the LTS version of Node. Close the terminal and open a new one afterwards.
+   then Node. Choose v26 LTS. Close the terminal and open a new one afterwards.
 3. **The editor.** Install VS Code from https://code.visualstudio.com/, or use the editor you prefer.
 
 ## Check the versions
@@ -83,7 +83,7 @@ You are in your bash terminal. Run each command and check the result:
 ```bash
 bash --version   # any version
 git --version    # any recent version
-node --version   # v24 or later
+node --version   # v26 or later
 npm --version    # comes with Node
 curl --version   # any version
 ```
@@ -174,7 +174,7 @@ A short round to see that everything works together.
 
 ### Verify
 
-- [ ] `node --version` shows v24 or later, and `git`, `npm` and `curl` answer with a version.
+- [ ] `node --version` shows v26 or later, and `git`, `npm` and `curl` answer with a version.
 - [ ] `git config --global user.name` and `user.email` show your name and email.
 - [ ] If you set up an SSH key: `ssh -T git@github.com` (or `gitlab.com`) greets you with your user name.
 - [ ] You work in a bash terminal (Git Bash on Windows), also inside your editor.
@@ -188,10 +188,10 @@ computer, so Windows updates the `PATH`.
 </details>
 
 <details>
-<summary><code>node --version</code> shows v22 or older</summary>
+<summary><code>node --version</code> shows v24 or older</summary>
 
-An old Node is installed and found first. On Linux, install with nvm as above and run `nvm use --lts`. On Windows and
-macOS, install the LTS version from nodejs.org again; it replaces the old one.
+An old Node is installed and found first. On Linux, install with nvm as above and run `nvm install 26`. On Windows and
+macOS, install v26 LTS from nodejs.org; it replaces the old one.
 
 </details>
 
