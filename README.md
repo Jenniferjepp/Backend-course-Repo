@@ -3,6 +3,9 @@
 Your own repo for the course: exercises, weekly reports and the two labs all live here. Start by creating your own
 copy of this template, then pull new material from it each week.
 
+The week plan (what to prepare, the Friday agenda, deadlines) is in Canvas; it links to the exercises and articles
+here.
+
 ## Get started
 
 1. Create your own repo from this template and clone it.
