@@ -83,18 +83,31 @@ createApp().listen(port, () => {
 
 `process.env.PORT ?? 3000` uses the port from the environment variable `PORT` if it is set, otherwise 3000.
 
-Start it with `--watch`, so the server restarts when you save a file:
+Choose the port in the terminal by setting `PORT`. `export` makes the variable visible to the programs you start from
+that terminal, the server included, and the commands below use it as `$PORT`:
+
+```bash
+export PORT=3000
+echo $PORT
+```
+
+Start the server with `--watch`, so it restarts when you save a file:
 
 ```bash
 node --watch src/http-server.js
 ```
 
-Open http://localhost:3000/ in the browser, then try it from a second terminal:
+Open http://localhost:3000/ in the browser (use your port if you chose another). Then open a second terminal, go to
+your repo, set the port there too, and try the server:
 
 ```bash
-curl -i http://localhost:3000/
-curl -i http://localhost:3000/nope
+export PORT=3000
+curl -i http://localhost:$PORT/
+curl -i http://localhost:$PORT/nope
 ```
+
+A variable you set with `export` lives only in that terminal, until you close it. In a new terminal, run
+`export PORT=3000` again.
 
 `-i` shows the status line and the headers as well as the body. Find `200`, `404` and `Content-Type` in the output.
 
@@ -126,7 +139,7 @@ if (req.method === 'GET' && req.url === '/api/hello') {
 Save, and the server restarts. Try it:
 
 ```bash
-curl -i http://localhost:3000/api/hello
+curl -i http://localhost:$PORT/api/hello
 ```
 
 ## 5. Test the server
@@ -203,8 +216,16 @@ If you have a remote of your own, push with `git push`.
 <details>
 <summary><code>Error: listen EADDRINUSE: address already in use :::3000</code></summary>
 
-A server is already running on port 3000, maybe in another terminal. Stop it with `Ctrl+C`, or start on another port:
-`PORT=3001 node src/http-server.js`.
+A server is already running on port 3000, maybe in another terminal. Stop it with `Ctrl+C`, or choose another port
+with `export PORT=3001` in both terminals and start the server again.
+
+</details>
+
+<details>
+<summary><code>curl</code> says "Failed to connect to localhost port 80"</summary>
+
+`$PORT` is empty in this terminal, so the URL becomes `http://localhost:/` and `curl` tries the default port 80. Run
+`export PORT=3000` (or the port you chose) in this terminal and try again.
 
 </details>
 
