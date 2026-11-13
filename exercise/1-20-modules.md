@@ -194,7 +194,117 @@ the list without going through your functions.
 
 ## 3. Write the main program
 
-The main program `main.js` imports the functions it needs and does all the printing. Create `practice/1-20/main.js`:
+The main program `main.js` imports the functions it needs and does all the printing. You build it in small steps and
+run it after each one. Try each step yourself first; the solution is there if you get stuck.
+
+### 3.1 A start that runs
+
+Create `practice/1-20/main.js` with this code, which adds one task and prints the list as it is:
+
+```js
+import { addTask, getTasks } from './todo.js'
+
+addTask('Wash clothes')
+console.log(getTasks())
+```
+
+Run it:
+
+```bash
+node practice/1-20/main.js
+```
+
+```text
+[ 'Wash clothes' ]
+```
+
+`getTasks()` returns an array, and `console.log()` prints it the way Node shows arrays.
+
+### 3.2 Add more tasks
+
+Add the tasks `Do the dishes` and `Go for a walk` after the first one, and run again. The array now has three items.
+
+<details>
+<summary>A solution</summary>
+
+```js
+addTask('Wash clothes')
+addTask('Do the dishes')
+addTask('Go for a walk')
+console.log(getTasks())
+```
+
+</details>
+
+### 3.3 Print the list nicely
+
+Write a function `printTasks()` in `main.js` that gets the list and prints it numbered from 1, or a message when the
+list is empty. Replace `console.log(getTasks())` with a call to it:
+
+```text
+Your to-do list:
+1. Wash clothes
+2. Do the dishes
+3. Go for a walk
+```
+
+Hint: `tasks.forEach((task, index) => ...)` gives you each task and its index, which starts at 0.
+
+<details>
+<summary>A solution</summary>
+
+```js
+function printTasks() {
+  const tasks = getTasks()
+  if (tasks.length === 0) {
+    console.log('Your to-do list is empty.')
+    return
+  }
+  console.log('Your to-do list:')
+  tasks.forEach((task, index) => console.log(`${index + 1}. ${task}`))
+}
+```
+
+Put the function after the `import` line, and call it with `printTasks()` after the tasks are added.
+
+</details>
+
+### 3.4 Remove a task
+
+Import `deleteTask` too, remove task number 2, print which task was removed, and print the list again:
+
+```text
+Your to-do list:
+1. Wash clothes
+2. Do the dishes
+3. Go for a walk
+Task "Do the dishes" was removed.
+Your to-do list:
+1. Wash clothes
+2. Go for a walk
+```
+
+Hint: `deleteTask()` returns the task it removed.
+
+<details>
+<summary>A solution</summary>
+
+```js
+import { addTask, getTasks, deleteTask } from './todo.js'
+```
+
+and last in the file:
+
+```js
+const removed = deleteTask(2)
+console.log(`Task "${removed}" was removed.`)
+printTasks()
+```
+
+</details>
+
+<details>
+<summary>The whole <code>main.js</code> after step 3</summary>
 
 ```js
 import { addTask, getTasks, deleteTask } from './todo.js'
@@ -219,11 +329,7 @@ console.log(`Task "${removed}" was removed.`)
 printTasks()
 ```
 
-Run it:
-
-```bash
-node practice/1-20/main.js
-```
+</details>
 
 The output is the same as from the lecture code, but now the list lives in one file and the printing in another.
 
