@@ -342,28 +342,6 @@ printTasks()
 
 The output is the same as from the lecture code, but now the list lives in one file and the printing in another.
 
-### Think about it: where does `printTasks()` belong?
-
-`printTasks()` uses the list, so why not put it in `todo.js` next to the other functions? Think about it before you
-open the answer:
-
-- What if the list should be shown on a web page, or sent as JSON from a server, instead of printed in the terminal?
-- How would you write a test for `printTasks()`, compared with a test for `getTasks()`?
-
-<details>
-<summary>One way to see it</summary>
-
-The module answers *what* is in the list; the caller decides *how* to show it. `getTasks()` returns an array that a
-terminal program, a web page and a JSON API can all use. A `printTasks()` inside `todo.js` would tie the module to the
-terminal, and you would need another function for each new way of showing the list. It is also harder to test: a test
-can compare the array from `getTasks()` with what it expects, but the only result of `printTasks()` is text on the
-screen.
-
-The idea has a name, *separation of concerns*: each part of the code has one job. You meet it again in 1-30, where the
-same kind of data is sent as JSON, and in the coming weeks with routes and views in Express.
-
-</details>
-
 ## 4. Catch an error
 
 `deleteTask()` throws when the number is wrong. Add this last in `main.js` and run it again:
@@ -378,7 +356,95 @@ try {
 
 Try what happens without `try`/`catch`: the program stops with a stack trace. Put the `try` back.
 
-## 5. Test the module
+## 5. Refactor: the list as JSON
+
+`printTasks()` uses the list, so why not put it in `todo.js` next to the other functions? Think about it for a
+moment:
+
+- What if the list should be shown on a web page, or sent as JSON from a server, instead of printed in the terminal?
+- How would you write a test for `printTasks()`, compared with a test for `getTasks()`?
+
+Now try the other way. JSON is a text format for data that a web server can send, as you will do in 1-30. Add a
+function to the module that returns the list as JSON. The module still does not print; `main.js` does.
+
+### 5.1 A function in the module
+
+Add this to `todo.js` and fill in the numbered parts:
+
+```js
+export function getTasksAsJson() {
+  // 1. Make a new array with one object per task, like { number: 1, task: 'Wash clothes' }
+  // 2. Return the array as a JSON string, indented with 2 spaces
+}
+```
+
+Hint: `JSON.stringify(list, null, 2)` turns `list` into a JSON string; the `2` is the indentation.
+
+<details>
+<summary>A solution</summary>
+
+```js
+export function getTasksAsJson() {
+  const list = []
+  for (let i = 0; i < tasks.length; i++) {
+    list.push({ number: i + 1, task: tasks[i] })
+  }
+  return JSON.stringify(list, null, 2)
+}
+```
+
+</details>
+
+### 5.2 Print the JSON from the main program
+
+Import `getTasksAsJson` in `main.js` and print what it returns, last in the file. Run it; the output ends with:
+
+```text
+[
+  {
+    "number": 1,
+    "task": "Wash clothes"
+  },
+  {
+    "number": 2,
+    "task": "Go for a walk"
+  }
+]
+```
+
+<details>
+<summary>A solution</summary>
+
+```js
+import { addTask, getTasks, deleteTask, getTasksAsJson } from './todo.js'
+```
+
+and last in the file:
+
+```js
+console.log(getTasksAsJson())
+```
+
+</details>
+
+Now you have both: `printTasks()` in `main.js` prints, and `getTasksAsJson()` in `todo.js` returns a string. Which
+of them could a web server use?
+
+<details>
+<summary>One way to see it</summary>
+
+The module answers *what* is in the list; the caller decides *how* to show it. `getTasks()` returns an array and
+`getTasksAsJson()` a string, and a terminal program, a web page and a JSON API can all use them. A `printTasks()`
+inside `todo.js` would tie the module to the terminal: a web server has no use for text printed on its own screen. It
+is also harder to test: a test can compare what `getTasks()` or `getTasksAsJson()` returns with what it expects, but
+the only result of `printTasks()` is text on the screen.
+
+The idea has a name, *separation of concerns*: each part of the code has one job. You meet it again in 1-30, where a
+server sends JSON, and in the coming weeks with routes and views in Express.
+
+</details>
+
+## 6. Test the module
 
 A test calls a function and checks the result. Since the module returns values instead of printing, it is easy to
 test. Node has a test runner built in: `node:test` runs the tests and `node:assert` checks the results.
@@ -414,11 +480,12 @@ Run the tests:
 npm test
 ```
 
-Then add two tests of your own: one that `deleteTask()` removes the right task and returns it, and one that it throws
-on a number outside the list.
+Then add three tests of your own: that `deleteTask()` removes the right task and returns it, that it throws on a
+number outside the list, and that `getTasksAsJson()` returns the list numbered from 1. Remember to import the
+functions the tests use.
 
 <details>
-<summary>The two tests</summary>
+<summary>The three tests</summary>
 
 ```js
 test('deleteTask removes by number, starting at 1', () => {
@@ -432,7 +499,14 @@ test('deleteTask throws on a number outside the list', () => {
   addTask('Wash clothes')
   assert.throws(() => deleteTask(2), /valid task number/)
 })
+
+test('getTasksAsJson returns the list as JSON, numbered from 1', () => {
+  addTask('Wash clothes')
+  assert.deepEqual(JSON.parse(getTasksAsJson()), [{ number: 1, task: 'Wash clothes' }])
+})
 ```
+
+`JSON.parse()` turns the string back into data, so the test compares the content and not the spaces.
 
 </details>
 
@@ -450,7 +524,8 @@ If you have a remote of your own, push with `git push`.
 
 ### Verify
 
-- [ ] `node practice/1-20/main.js` prints the list, removes a task and catches the error.
+- [ ] `node practice/1-20/main.js` prints the list, removes a task, catches the error and prints the list as JSON.
+- [ ] You can say why `printTasks()` is in `main.js` and `getTasksAsJson()` in `todo.js`.
 - [ ] `npm run check` passes, with your tests included.
 - [ ] You can say why a function that returns a value is easier to test than one that prints.
 - [ ] You can say what `export` and `import` do, and why `tasks` is not exported.
