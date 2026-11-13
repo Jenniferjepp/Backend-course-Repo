@@ -135,12 +135,13 @@ export function clearTasks() {
 }
 ```
 
+Do one function at a time. If you get stuck, open the solution for that function only, and try the next one
+yourself.
+
 <details>
-<summary>A solution</summary>
+<summary>A solution: <code>addTask()</code></summary>
 
 ```js
-const tasks = []
-
 export function addTask(task) {
   if (!task) {
     throw new Error('Please enter a valid task.')
@@ -148,18 +149,39 @@ export function addTask(task) {
   tasks.push(task)
   return tasks.length
 }
+```
 
+</details>
+
+<details>
+<summary>A solution: <code>getTasks()</code></summary>
+
+```js
 export function getTasks() {
   return [...tasks]
 }
+```
 
+</details>
+
+<details>
+<summary>A solution: <code>deleteTask()</code></summary>
+
+```js
 export function deleteTask(number) {
   if (number < 1 || number > tasks.length) {
     throw new Error('Please enter a valid task number.')
   }
   return tasks.splice(number - 1, 1)[0]
 }
+```
 
+</details>
+
+<details>
+<summary>A solution: <code>clearTasks()</code></summary>
+
+```js
 export function clearTasks() {
   tasks.length = 0
 }
