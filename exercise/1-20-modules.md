@@ -4,10 +4,11 @@ You take the to-do list from lecture 2, which is one file, and split it into a m
 holds the list and the functions; the main program imports them and prints. On the way you meet ES modules
 (`import`/`export`), the difference between returning a value and printing it, exceptions, and your first tests.
 
-You work in `practice/1-20/`. When you are done it has three files:
+You work in `practice/1-20/`. When you are done it has these files:
 
 ```
 practice/1-20/
+├── lecture.js     the code from the lecture, your starting point (remove it when done)
 ├── todo.js        the module: the list and the functions
 ├── todo.test.js   tests for the module
 └── main.js        the main program: uses the module and prints
