@@ -427,8 +427,39 @@ console.log(getTasksAsJson())
 
 </details>
 
-Now you have both: `printTasks()` in `main.js` prints, and `getTasksAsJson()` in `todo.js` returns a string. Which
-of them could a web server use?
+### 5.3 Print the list from the JSON
+
+`printTasks()` still numbers the tasks itself. Rewrite it so it gets the list from `getTasksAsJson()` instead, turns
+the string back into data with `JSON.parse()`, and prints each task with its `number`. The output of the program
+should be exactly the same as before. Changing how the code is built without changing what it does is called
+*refactoring*.
+
+Hint: after `JSON.parse()` you have an array of objects, so `list[i].number` and `list[i].task` give you the parts.
+
+<details>
+<summary>A solution</summary>
+
+```js
+function printTasks() {
+  const list = JSON.parse(getTasksAsJson())
+  if (list.length === 0) {
+    console.log('Your to-do list is empty.')
+    return
+  }
+  console.log('Your to-do list:')
+  for (let i = 0; i < list.length; i++) {
+    console.log(`${list[i].number}. ${list[i].task}`)
+  }
+}
+```
+
+`main.js` no longer uses `getTasks()`, so remove it from the `import` line. `npm run lint` warns about imports that
+are not used.
+
+</details>
+
+Now `todo.js` decides what the data is and how it is numbered, and `main.js` only decides how to show it. Which of
+the two functions could a web server use as it is?
 
 <details>
 <summary>One way to see it</summary>
@@ -525,6 +556,7 @@ If you have a remote of your own, push with `git push`.
 ### Verify
 
 - [ ] `node practice/1-20/main.js` prints the list, removes a task, catches the error and prints the list as JSON.
+- [ ] `printTasks()` gets the list from `getTasksAsJson()`, and the output is the same as before.
 - [ ] You can say why `printTasks()` is in `main.js` and `getTasksAsJson()` in `todo.js`.
 - [ ] `npm run check` passes, with your tests included.
 - [ ] You can say why a function that returns a value is easier to test than one that prints.
