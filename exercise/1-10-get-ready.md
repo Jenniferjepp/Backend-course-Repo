@@ -113,8 +113,8 @@ Do it now. You get "Already up to date" if nothing is new.
 
 ## Check and push
 
-Write one line about yourself and your setup (OS, editor) under "What I did" in `report/week-01.md`, then commit and
-push:
+Start your report for the week: write a few lines in `report/week-01.md` about yourself and your setup (operating
+system, editor, what was new). You continue the text at the end of the week. Then commit and push:
 
 ```bash
 git add report/week-01.md

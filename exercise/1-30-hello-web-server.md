@@ -217,9 +217,10 @@ Add a route `GET /` that sends the file `public/index.html` instead of text. Rea
 `node:fs/promises` and use the `Content-Type` `text/html; charset=utf-8`. What happens with a CSS file the page links
 to? That is the problem Express solves next week.
 
-## Fill in your report
+## Write your report
 
-Fill in `report/week-01.md`, commit and push.
+This was the last exercise of the week. Write your report in `report/week-01.md`: [report/README.md](../report/README.md)
+tells you how, and the week page in Canvas has the points for the week. Commit and push it.
 
 ## Read more
 
