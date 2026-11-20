@@ -106,16 +106,17 @@ The tasks are added in `server.js`, not in `app.js`, since the tests use `app.js
 
 ## 2. The model: tests first
 
-Your module stores each task as a string, and `getTasks()` gives them as an array of strings. The API answers with
-objects that have an `id`, the number of the task in the list (1, 2, 3 …):
+The model gets two new functions, `getTaskList()` for all tasks and `getTask(id)` for one, and you start with their
+tests. Both give a task as an object with an `id`, its number in the list (1, 2, 3 …), since that is what the API
+answers with:
 
 ```json
 { "id": 2, "task": "Buy milk" }
 ```
 
-The routes should not build those objects or search the list themselves. That is the job of the model, which gets two
-new functions: `getTaskList()` gives all tasks as such objects, and `getTask(id)` gives one, or `undefined` when there
-is none. You start with the tests, which say exactly what the functions must do.
+So far the module has only strings: `getTasks()` gives `['Wash clothes', 'Buy milk']`. Building the objects and
+finding a task by its id is the job of the model, not of the routes, which only call the functions. `getTask(id)`
+gives `undefined` when there is no task with that id.
 
 ### 2.1 The tests
 
