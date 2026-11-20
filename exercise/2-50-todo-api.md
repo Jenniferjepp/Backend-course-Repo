@@ -21,8 +21,9 @@ You need 1-20 and 2-25 done; you go on with the app in `src/`. When you are done
 src/
 ├── app.js              mounts the new router
 ├── server.js           starts the server with a few tasks
-├── todo.js             your module from 1-20, with two new functions
-├── todo.test.js        your tests from 1-20
+├── model/
+│   ├── todo.js         your module from 1-20, with two new functions
+│   └── todo.test.js    your tests from 1-20
 └── route/
     ├── tasks.js        the routes for the tasks
     └── tasks.test.js   the tests of the routes
@@ -42,14 +43,17 @@ This is the same as in 2-20: a route parameter, `res.json()`, and 400 or 404 wit
 is wrong.
 
 The route and the module share the work. The route reads the URL and picks the status code, the module finds the
-task:
+task. A module like `todo.js`, which owns the data and the functions on it, is called a *model*, and it goes in
+`src/model/`, next to `src/route/` (and `src/views/` if you did 2-30). The route handler itself decides what to answer;
+there is no layer between the route and the model. When the tasks move to a database in the coming weeks, only the
+inside of the model changes:
 
 ```mermaid
 sequenceDiagram
   participant C as Client
   participant A as app.js
   participant R as route/tasks.js
-  participant T as todo.js (module)
+  participant T as model/todo.js
   C->>A: GET /api/tasks/2
   A->>R: /2
   Note over R: toId('2') gives 2, or 400 when it is not a whole number
@@ -61,10 +65,11 @@ sequenceDiagram
 
 ## 1. The module and a few tasks
 
-Copy your module and its tests from 1-20 into `src/`, from the root of your repo:
+Copy your module and its tests from 1-20 into `src/model/`, from the root of your repo:
 
 ```bash
-cp practice/1-20/todo.js practice/1-20/todo.test.js src/
+mkdir -p src/model
+cp practice/1-20/todo.js practice/1-20/todo.test.js src/model/
 ```
 
 Your files in `practice/1-20/` stay as they are. Run the tests of `src/`, to see that the module works in its new
@@ -79,7 +84,7 @@ the server, so there is something to ask for:
 
 ```js
 import app from './app.js'
-import { addTask } from './todo.js'
+import { addTask } from './model/todo.js'
 
 const port = process.env.PORT ?? 3000
 
@@ -108,7 +113,7 @@ objects that have an `id`, the number of the task in the list (1, 2, 3 …):
 ```
 
 The routes should not build those objects or search the list themselves. That is the job of the module. Add two
-functions last in `src/todo.js`:
+functions last in `src/model/todo.js`:
 
 ```js
 export function getTaskList() {
@@ -133,7 +138,7 @@ Hints:
 Try the module from the root of your repo before you go on, with a line of Node:
 
 ```bash
-node -e "import('./src/todo.js').then((t) => { t.addTask('Milk'); console.log(t.getTaskList(), t.getTask(1)) })"
+node -e "import('./src/model/todo.js').then((t) => { t.addTask('Milk'); console.log(t.getTaskList(), t.getTask(1)) })"
 ```
 
 ## 3. The routes: `route/tasks.js`
@@ -176,6 +181,7 @@ The wording of the error messages is yours; the tests check that there is an `er
 
 Hints:
 
+- The router imports the functions it needs from the model: `import { ... } from '../model/todo.js'`.
 - The id comes as a string in `req.params.id`. Turn it into a number before you call `getTask()`. A small helper does
   it, and answers `undefined` when the string is not a whole number, so `abc`, `1.5` and `-1` are all wrong:
 
@@ -200,7 +206,7 @@ The tests are given. Create `src/route/tasks.test.js`:
 import { test, before, after } from 'node:test'
 import assert from 'node:assert/strict'
 import app from '../app.js'
-import { addTask, clearTasks } from '../todo.js'
+import { addTask, clearTasks } from '../model/todo.js'
 
 let server
 let baseUrl
@@ -286,7 +292,7 @@ If you have a remote of your own, push with `git push`.
 
 - [ ] `npm run dev` starts the server, and every row in the table in step 3 answers as it should with `curl`.
 - [ ] `npm run check` passes, with the tests of the module and of the routes.
-- [ ] The routes in `route/tasks.js` get their tasks only through the functions in `todo.js`.
+- [ ] The routes in `route/tasks.js` get their tasks only through the functions in `model/todo.js`.
 - [ ] You can say why the route turns the id into a number, and why `todo.js` takes a number and not a string.
 - [ ] You can say when the answer is 200, 400 or 404.
 
@@ -301,8 +307,8 @@ The router is not mounted, or mounted on another path. Check that `src/app.js` i
 <details>
 <summary><code>does not provide an export named 'getTaskList'</code> (or <code>clearTasks</code>)</summary>
 
-The function is missing in `src/todo.js`, or it has no `export` in front of it. `clearTasks()` is from 1-20; if you
-did not write it then, add it now: it empties the list.
+The function is missing in `src/model/todo.js`, or it has no `export` in front of it. `clearTasks()` is from 1-20; if
+you did not write it then, add it now: it empties the list.
 
 </details>
 
