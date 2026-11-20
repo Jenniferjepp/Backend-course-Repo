@@ -15,4 +15,5 @@ Named after the week and in the order to do them: `1-10`, `1-20` … is week 1. 
 - [2-20 Routes: route parameters, the query string and a router](2-20-routes.md)
 - [2-25 A health route: find your way in the Node.js documentation](2-25-health.md)
 - [2-30 Web pages with EJS: static files, templates and XSS](2-30-ejs.md)
-- [2-40 The library: your own JSON API, part 1](2-40-library.md)
+- [2-50 The to-do API: your own JSON API](2-50-todo-api.md)
+- [2-40 The library](2-40-library.md), *cancelled*: do 2-50 instead
