@@ -172,6 +172,14 @@ npm test -- src
 The new tests fail, and the old ones still pass. Read the lines under a failing test: they show what was expected and
 what the function gave, `undefined` for now. That is the list of what is left to do.
 
+You can run only some of the tests, by a part of their names. This runs only the tests of `getTaskList()`:
+
+```bash
+npm test -- --test-name-pattern="getTaskList" src/model
+```
+
+More in [Testing with Node.js](../doc/testing-with-node.md), the section "Only one file, or only some tests".
+
 ### 2.3 Write the functions
 
 Write the two functions until all tests pass. They return values and never print, and an id is a number here:
@@ -300,26 +308,29 @@ of Express, and a test says for example `404 !== 200`.
 
 ### 3.3 Write the routes
 
-Write one route at a time. Start the server, try the route with `curl`, and run the tests:
+Write one route at a time, and try it both with `curl` and with the tests. Start the server:
 
 ```bash
 export PORT=3000
 npm run dev
 ```
 
+In a second terminal, try each row of the table. The server has the three tasks from `server.js`:
+
 ```bash
+export PORT=3000
 curl -i http://localhost:$PORT/api/tasks
+curl -i http://localhost:$PORT/api/tasks/2
+curl -i http://localhost:$PORT/api/tasks/42
+curl -i http://localhost:$PORT/api/tasks/abc
+curl -i http://localhost:$PORT/api/tasks/1.5
+curl -i http://localhost:$PORT/api/tasks/-1
 ```
 
-The server has the three tasks from `server.js`, so `curl` gives the answers in the table. Go on until all tests pass.
+The last three give 400, the one before 404. Then run the tests, `npm test -- src`, and go on until all of them pass.
 
-While you work on one route, you can run only its tests, by a part of their names:
-
-```bash
-npm test -- --test-name-pattern="404" src/route
-```
-
-More in [Testing with Node.js](../doc/testing-with-node.md), the section "Only one file, or only some tests".
+To run only the tests of the route you work on, use a part of their names as in 2.2, for example
+`--test-name-pattern="404"`.
 
 Hints:
 
