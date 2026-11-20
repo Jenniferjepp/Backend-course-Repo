@@ -320,9 +320,11 @@ Your Node.js is older than 26. Check with `node --version` and install a newer o
 
 ## Challenge
 
-Make the Express app answer exactly as `http-app.js` did: `Content-Type: text/plain` on `/` (look at `res.type()`),
-the text `Not Found` on an unknown path (a last `app.use()` that answers with `res.status(404)`), and no
-`X-Powered-By` header (look at `app.disable()`). Do the tests still pass?
+Make `/` answer with `Content-Type: text/plain`, as `http-app.js` did. Look at `res.type()` in the Express API, and
+check the header with `curl -i`. Do the tests still pass?
+
+Then remove the header `X-Powered-By: Express` with `app.disable('x-powered-by')`, right after `express()`. Why
+might you not want to tell everyone which framework your server runs?
 
 ## Read more
 
