@@ -36,6 +36,20 @@ and takes over the parts you wrote by hand in 1-30:
 - **The response**: `res.send()` and `res.json()` set the status code, the `Content-Type` and the body for you.
 - **404**: a path with no route gets a 404 without any code of yours.
 
+Express tries the routes in the order you wrote them, and the first that matches the method and the path answers.
+When none matches, Express answers 404 itself:
+
+```mermaid
+flowchart LR
+  C[Client] -->|GET /api/hello| E[Express app]
+  E --> R1{"app.get('/')"}
+  R1 -->|no match| R2{"app.get('/api/hello')"}
+  R2 -->|match| H["route handler<br>res.json(...)"]
+  R2 -->|no match| N["404 from Express<br>Cannot GET ..."]
+  H -->|200, JSON| C
+  N -->|404, HTML| C
+```
+
 A route is a method, a path and a function, the *route handler*, that gets the request `req` and the response `res`:
 
 ```js
@@ -320,11 +334,9 @@ Your Node.js is older than 26. Check with `node --version` and install a newer o
 
 ## Challenge
 
-Make `/` answer with `Content-Type: text/plain`, as `http-app.js` did. Look at `res.type()` in the Express API, and
-check the header with `curl -i`. Do the tests still pass?
-
-Then remove the header `X-Powered-By: Express` with `app.disable('x-powered-by')`, right after `express()`. Why
-might you not want to tell everyone which framework your server runs?
+Add a second route for `GET /` last in `src/app.js`, one that answers another text. Which of the two answers when you
+try `/` with `curl`? Move the new route above the first one and try again. Compare with the diagram in the
+background: what does it tell you about the order of the routes? Remove the extra route when you are done.
 
 ## Read more
 
