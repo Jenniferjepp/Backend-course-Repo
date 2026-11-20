@@ -40,7 +40,8 @@ gives what answer is up to you. Next week Express takes over that part.
 
 `package.json` has two scripts for the app, `npm start` and `npm run dev`. They start `src/server.js`, which is the
 Express app from next week, so they do not work yet: if you try, you get a long error that starts with
-`Error: Cannot find module '.../src/server.js'` (code `MODULE_NOT_FOUND`). That is expected. This week you start the
+`Error: Cannot find module '.../src/server.js'` (code `MODULE_NOT_FOUND`), after a line `.env not found. Continuing
+without it.` that you can ignore. That is expected. This week you start the
 server with `node` directly.
 
 ## 2. Create the app

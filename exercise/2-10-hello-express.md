@@ -114,8 +114,8 @@ export PORT=3000
 npm run dev
 ```
 
-The line `.env not found. Continuing without it.` is fine: the script reads a `.env` file if there is one, and you
-have none yet.
+The line `.env not found. Continuing without it.`, maybe printed twice, is fine: the script reads a `.env` file if
+there is one, and you have none yet.
 
 In a second terminal, set the port and try it:
 
