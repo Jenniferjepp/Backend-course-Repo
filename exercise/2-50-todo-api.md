@@ -135,11 +135,8 @@ Hints:
 - `getTask()` can use `getTaskList()` and look for the object with that `id`. Look at `find()` in
   [Array on MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find).
 
-Try the module from the root of your repo before you go on, with a line of Node:
-
-```bash
-node -e "import('./src/model/todo.js').then((t) => { t.addTask('Milk'); console.log(t.getTaskList(), t.getTask(1)) })"
-```
+The given tests in step 4 check the functions through the routes. If you want to see them work before that, add a
+test for each in `src/model/todo.test.js`, as you did in 1-20.
 
 ## 3. The routes: `route/tasks.js`
 
