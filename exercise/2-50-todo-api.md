@@ -313,6 +313,14 @@ curl -i http://localhost:$PORT/api/tasks
 
 The server has the three tasks from `server.js`, so `curl` gives the answers in the table. Go on until all tests pass.
 
+While you work on one route, you can run only its tests, by a part of their names:
+
+```bash
+npm test -- --test-name-pattern="404" src/route
+```
+
+More in [Testing with Node.js](../doc/testing-with-node.md), the section "Only one file, or only some tests".
+
 Hints:
 
 - The router imports the functions it needs from the model: `import { ... } from '../model/todo.js'`.
