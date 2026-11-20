@@ -42,6 +42,24 @@ a client can ask for one task by its id:
 This is the same as in 2-20: a route parameter, `res.json()`, and 400 or 404 with an error as JSON when the request
 is wrong.
 
+The route and the module share the work. The route reads the URL and picks the status code, the module finds the
+task:
+
+```mermaid
+sequenceDiagram
+  participant C as Client
+  participant A as app.js
+  participant R as api.js (router)
+  participant T as todo.js (module)
+  C->>A: GET /api/tasks/2
+  A->>R: /tasks/2
+  Note over R: toId('2') gives 2, or 400 when it is not a whole number
+  R->>T: getTask(2)
+  T-->>R: { id: 2, task: 'Buy milk' }, or undefined
+  Note over R: undefined gives 404
+  R-->>C: 200, { "id": 2, "task": "Buy milk" }
+```
+
 ## 1. The project and the server
 
 Create the directory and copy your module and its tests from 1-20, from the root of your repo:
