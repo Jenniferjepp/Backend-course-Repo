@@ -2,6 +2,12 @@
 
 Articles and reading instructions, added week by week. The exercises link to them under "Read more".
 
+## For all weeks
+
+| Article | What it is about |
+|---|---|
+| [Troubleshooting](troubleshooting.md) | Problems that show up in more than one exercise: the tools, the server and the port, imports, Git |
+
 ## Week 1
 
 | Article | What it is about |

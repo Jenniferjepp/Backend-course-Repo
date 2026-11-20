@@ -247,7 +247,20 @@ If you have a remote of your own, push with `git push`.
 <summary><code>Error: listen EADDRINUSE: address already in use :::3000</code></summary>
 
 A server is already running on port 3000, maybe in another terminal. Stop it with `Ctrl+C`, or choose another port
-with `export PORT=3001` in both terminals and start the server again.
+with `export PORT=3001` in both terminals and start the server again. If you cannot find the terminal, find the
+process that holds the port and stop it:
+
+```bash
+# Git Bash on Windows: the last column is the process id (PID)
+netstat -ano | grep :3000
+taskkill //PID <pid> //F
+
+# macOS and Linux
+lsof -i :3000
+kill <pid>
+```
+
+More in [Troubleshooting](../doc/troubleshooting.md).
 
 </details>
 

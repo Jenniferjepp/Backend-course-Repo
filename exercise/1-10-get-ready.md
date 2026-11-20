@@ -108,7 +108,8 @@ Open the repo in your editor and find these:
 - `public/`: static files (HTML, CSS, images) for the app.
 - `practice/`: small exercises that stand on their own, one directory each.
 - `report/`: one report per week. You fill in `week-01.md` at the end of this week.
-- `exercise/` and `doc/`: the exercises and articles. New ones arrive each week.
+- `exercise/` and `doc/`: the exercises and articles. New ones arrive each week. `doc/troubleshooting.md` collects
+  the problems that show up in more than one exercise.
 - `CLAUDE.md` and `AGENTS.md`: context for an AI assistant (Claude Code, Codex, Copilot and others), so it helps you
   learn instead of writing your code. Read `CLAUDE.md` once; it is yours to change.
 
