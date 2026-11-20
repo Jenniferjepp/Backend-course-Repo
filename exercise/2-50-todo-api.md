@@ -1,17 +1,18 @@
 # 2-50 The to-do API: your own JSON API
 
-In 1-20 you wrote the to-do list as a module, `todo.js`, and a main program that printed the list. In this exercise
-the same module moves into your app in `src/` and gets routes: the app answers with the tasks as JSON. You write the
-code yourself, and you start from your own code from 1-20. The exercise says what each route must answer and gives
-you hints, and the tests tell you when you are done. There is no solution to copy; it is shown in the Friday session
-of week 3.
+In 1-20 you wrote the to-do list as a module, `todo.js`, and a main program that printed the list. In this exercise the
+same module moves into your app in `src/` and gets routes: the app answers with the tasks as JSON. You write the code
+yourself, and you start from your own code from 1-20. The exercise says what each route must answer and gives you hints,
+and the tests are given: you add them first, see them fail, and write the code until they pass. There is no solution to
+copy; it is shown in the Friday session of week 3.
 
 This is what happens, step by step:
 
 - You copy your module from 1-20 into `src/`, and let the server start with a few tasks in the list.
-- You add two functions to the module that give the tasks as objects with an `id`.
-- You write the routes, in a router of their own as in 2-25, and try each with `curl`.
-- You add the tests, which are given, and run them until they all pass.
+- You add the tests of two new functions in the module, see them fail, and write the functions, which give the tasks
+  as objects with an `id`.
+- You add the tests of the routes, see them fail, and write the routes, in a router of their own as in 2-25, one at a
+  time, trying each with `curl`.
 
 The to-do list grows through the course: in the coming weeks it moves to a database and gets more routes.
 
@@ -23,7 +24,7 @@ src/
 ├── server.js           starts the server with a few tasks
 ├── model/
 │   ├── todo.js         your module from 1-20, with two new functions
-│   └── todo.test.js    your tests from 1-20
+│   └── todo.test.js    your tests from 1-20, with tests of the new functions
 └── route/
     ├── tasks.js        the routes for the tasks
     └── tasks.test.js   the tests of the routes
@@ -103,7 +104,7 @@ app.listen(port, (error) => {
 
 The tasks are added in `server.js`, not in `app.js`, since the tests use `app.js` and put their own tasks in the list.
 
-## 2. Two new functions in `todo.js`
+## 2. The model: tests first
 
 Your module stores each task as a string, and `getTasks()` gives them as an array of strings. The API answers with
 objects that have an `id`, the number of the task in the list (1, 2, 3 …):
@@ -112,8 +113,44 @@ objects that have an `id`, the number of the task in the list (1, 2, 3 …):
 { "id": 2, "task": "Buy milk" }
 ```
 
-The routes should not build those objects or search the list themselves. That is the job of the module. Add two
-functions last in `src/model/todo.js`:
+The routes should not build those objects or search the list themselves. That is the job of the model, which gets two
+new functions: `getTaskList()` gives all tasks as such objects, and `getTask(id)` gives one, or `undefined` when there
+is none. You start with the tests, which say exactly what the functions must do.
+
+### 2.1 The tests
+
+Add the two names to the import at the top of `src/model/todo.test.js`, so it imports `getTaskList` and `getTask`
+from `./todo.js` too. The line gets long, and `npm run format` splits it the way Prettier wants. Then add the tests
+last in the file:
+
+```js
+test('getTaskList gives an empty array for an empty list', () => {
+  assert.deepEqual(getTaskList(), [])
+})
+
+test('getTaskList gives each task with its id', () => {
+  addTask('Wash clothes')
+  addTask('Buy milk')
+  assert.deepEqual(getTaskList(), [
+    { id: 1, task: 'Wash clothes' },
+    { id: 2, task: 'Buy milk' },
+  ])
+})
+
+test('getTask gives the task with that id, or undefined', () => {
+  addTask('Wash clothes')
+  addTask('Buy milk')
+  assert.deepEqual(getTask(2), { id: 2, task: 'Buy milk' })
+  assert.equal(getTask(0), undefined)
+  assert.equal(getTask(3), undefined)
+})
+```
+
+Each test starts with an empty list, thanks to the `beforeEach(() => clearTasks())` you have from 1-20.
+
+### 2.2 See them fail
+
+Add the two functions last in `src/model/todo.js`, empty for now, so the tests have something to call:
 
 ```js
 export function getTaskList() {
@@ -125,8 +162,19 @@ export function getTask(id) {
 }
 ```
 
-The functions return values and never print, and an id is a number here: `getTask(2)`, not `getTask('2')`. Turning
-the string from the URL into a number is the job of the route.
+Run the tests:
+
+```bash
+npm test -- src
+```
+
+The new tests fail, and the old ones still pass. Read the lines under a failing test: they show what was expected and
+what the function gave, `undefined` for now. That is the list of what is left to do.
+
+### 2.3 Write the functions
+
+Write the two functions until all tests pass. They return values and never print, and an id is a number here:
+`getTask(2)`, not `getTask('2')`. Turning the string from the URL into a number is the job of the route.
 
 Hints:
 
@@ -135,37 +183,9 @@ Hints:
 - `getTask()` can use `getTaskList()` and look for the object with that `id`. Look at `find()` in
   [Array on MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find).
 
-The given tests in step 4 check the functions through the routes. If you want to see them work before that, add a
-test for each in `src/model/todo.test.js`, as you did in 1-20.
+## 3. The routes: tests first
 
-## 3. The routes: `route/tasks.js`
-
-Create `src/route/tasks.js` with a router, as `health.js` in 2-25, and export it with `export default router`. Then
-mount it in `src/app.js`, next to the other routers:
-
-```js
-import tasksRouter from './route/tasks.js'
-```
-
-```js
-app.use('/api/tasks', tasksRouter)
-```
-
-The router is mounted on `/api/tasks`, so its paths are `/` and `/:id`, as `/api/tasks/2` reaches it as `/2`.
-
-Write one route at a time, start the server and try it with `curl`:
-
-```bash
-export PORT=3000
-npm run dev
-```
-
-```bash
-curl -i http://localhost:$PORT/api/tasks
-```
-
-The routes must answer like this, with the three tasks from `server.js`. The tests in step 4 check every line of the
-table.
+The routes must answer like this:
 
 | Request | Status | Body |
 |---|---|---|
@@ -176,28 +196,10 @@ table.
 
 The wording of the error messages is yours; the tests check that there is an `error` with a text.
 
-Hints:
+### 3.1 The tests
 
-- The router imports the functions it needs from the model: `import { ... } from '../model/todo.js'`.
-- The id comes as a string in `req.params.id`. Turn it into a number before you call `getTask()`. A small helper does
-  it, and answers `undefined` when the string is not a whole number, so `abc`, `1.5` and `-1` are all wrong:
-
-  ```js
-  /** A whole number from the URL, or undefined when it is not one. */
-  function toId(value) {
-    return /^\d+$/.test(value) ? Number(value) : undefined
-  }
-  ```
-
-  `/^\d+$/` is a regular expression that means "only digits, from start to end".
-
-- 400 and 404 are answered as in 2-20: `return res.status(...).json({ error: ... })`, with `return` so the route
-  stops there.
-- Check the input first (400), then look for the task (404), then answer (200).
-
-## 4. The tests
-
-The tests are given. Create `src/route/tasks.test.js`:
+Create `src/route/tasks.test.js`. The tests put their own three tasks in the list and start the app on a free port, so
+you do not need the server running when you run them:
 
 ```js
 import { test, before, after } from 'node:test'
@@ -223,9 +225,12 @@ before(async () => {
 
 after(() => server.close())
 
+// The status, the content-type and the body, read as JSON when it is JSON
 async function get(path) {
   const res = await fetch(`${baseUrl}${path}`)
-  return { status: res.status, type: res.headers.get('content-type'), body: await res.json() }
+  const type = res.headers.get('content-type') ?? ''
+  const body = type.includes('application/json') ? await res.json() : await res.text()
+  return { status: res.status, type, body }
 }
 
 test('GET /tasks gives all tasks, with id and task', async () => {
@@ -263,15 +268,68 @@ test('an id that is not a whole number gives 400 with an error', async () => {
 })
 ```
 
-Run them:
+### 3.2 See them fail
 
-```bash
-npm test -- src
+Create `src/route/tasks.js` with an empty router, as `health.js` in 2-25:
+
+```js
+import express from 'express'
+
+const router = express.Router()
+
+// The routes for /api/tasks go here
+
+export default router
 ```
 
-The tests put their own three tasks in the list and start the app on a free port, so you do not need the server
-running. Fix your code until all of them pass. Read the name of a failing test and the lines under it: they say what
-was expected and what your API answered.
+Mount it in `src/app.js`, next to the other routers:
+
+```js
+import tasksRouter from './route/tasks.js'
+```
+
+```js
+app.use('/api/tasks', tasksRouter)
+```
+
+The router is mounted on `/api/tasks`, so its paths are `/` and `/:id`, as `/api/tasks/2` reaches it as `/2`.
+
+Run the tests with `npm test -- src`. The new ones fail: the router has no routes, so every request gets the 404 page
+of Express, and a test says for example `404 !== 200`.
+
+### 3.3 Write the routes
+
+Write one route at a time. Start the server, try the route with `curl`, and run the tests:
+
+```bash
+export PORT=3000
+npm run dev
+```
+
+```bash
+curl -i http://localhost:$PORT/api/tasks
+```
+
+The server has the three tasks from `server.js`, so `curl` gives the answers in the table. Go on until all tests pass.
+
+Hints:
+
+- The router imports the functions it needs from the model: `import { ... } from '../model/todo.js'`.
+- The id comes as a string in `req.params.id`. Turn it into a number before you call `getTask()`. A small helper does
+  it, and answers `undefined` when the string is not a whole number, so `abc`, `1.5` and `-1` are all wrong:
+
+  ```js
+  /** A whole number from the URL, or undefined when it is not one. */
+  function toId(value) {
+    return /^\d+$/.test(value) ? Number(value) : undefined
+  }
+  ```
+
+  `/^\d+$/` is a regular expression that means "only digits, from start to end".
+
+- 400 and 404 are answered as in 2-20: `return res.status(...).json({ error: ... })`, with `return` so the route
+  stops there.
+- Check the input first (400), then look for the task (404), then answer (200).
 
 ## Check and commit
 
@@ -294,7 +352,7 @@ If you have a remote of your own, push with `git push`.
 - [ ] You can say when the answer is 200, 400 or 404.
 
 <details>
-<summary><code>GET /api/tasks</code> gives 404 with <code>Cannot GET /api/tasks</code></summary>
+<summary><code>Cannot GET /api/tasks</code>, after you wrote the route</summary>
 
 The router is not mounted, or mounted on another path. Check that `src/app.js` imports `./route/tasks.js` and has
 `app.use('/api/tasks', tasksRouter)`, and that the paths in the router are `/` and `/:id`, not `/tasks`.
@@ -304,13 +362,14 @@ The router is not mounted, or mounted on another path. Check that `src/app.js` i
 <details>
 <summary><code>does not provide an export named 'getTaskList'</code> (or <code>clearTasks</code>)</summary>
 
-The function is missing in `src/model/todo.js`, or it has no `export` in front of it. `clearTasks()` is from 1-20; if
+The function is missing in `src/model/todo.js`, or it has no `export` in front of it: add the empty functions from
+step 2.2, and the tests fail one by one instead. `clearTasks()` is from 1-20; if
 you did not write it then, add it now: it empties the list.
 
 </details>
 
 <details>
-<summary>A test says <code>Expected values to be strictly equal: 404 !== 200</code> for <code>/tasks/2</code></summary>
+<summary>A test still says <code>404 !== 200</code> for <code>/tasks/2</code>, after you wrote the route</summary>
 
 The id from the URL is the string `'2'`, and `task.id === '2'` is false for the number `2`. Turn the id into a number
 in the route, with `toId()`, before you call `getTask()`.
