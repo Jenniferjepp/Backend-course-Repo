@@ -276,6 +276,17 @@ export default app
 `app.use('/api', apiRouter)` sends every request whose path starts with `/api` to the router, with `/api` taken off.
 `/api/hello/Ada` reaches the router as `/hello/Ada`.
 
+```mermaid
+flowchart LR
+  C[Client] -->|GET /api/hello/Ada| A[app.js]
+  A --> R1{"app.get('/')"}
+  R1 -->|no match| U{"app.use('/api', apiRouter)"}
+  U -->|"/api is taken off"| R[route/api.js]
+  R --> H{"router.get('/hello/:name')"}
+  H -->|"match, name = Ada"| J["res.json(...)"]
+  J -->|200, JSON| C
+```
+
 Run the tests, without changing them:
 
 ```bash
@@ -317,6 +328,17 @@ curl -i http://localhost:$PORT/api/nope
 Look in the terminal where the server runs: one line per request, such as `GET /api/hello/Ada`, also for the path
 that gives 404. Run `npm test -- src` too: the same lines are printed among the tests, since each test sends a real
 request to the app.
+
+The logger is now first on the way of every request, and `next()` lets the request go on:
+
+```mermaid
+flowchart LR
+  C[Client] --> M["logger<br>console.log(...)"]
+  M -->|"next()"| R1{"app.get('/')"}
+  R1 -->|no match| U{"app.use('/api', apiRouter)"}
+  U -->|no route in the router matched| N["404 from Express"]
+  M -.->|"no next()"| X["no answer: the request hangs"]
+```
 
 Then take away the line `next()`, save and run the first `curl` again. It hangs: the middleware neither answers nor
 lets the request go on. Stop `curl` with `Ctrl+C` and put the line back.
