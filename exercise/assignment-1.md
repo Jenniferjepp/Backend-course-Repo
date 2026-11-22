@@ -52,6 +52,9 @@ Then `npm run a1` starts the server, on `PORT` from `.env`, and `npm run a1:cli`
 
 ## The database
 
+We run your solution with MariaDB (the LTS version, as in the exercises). MySQL works too, but `create.sql` must
+load in MariaDB: write it by hand, without a `COLLATE` from MySQL 8.
+
 Create the database `a1` yourself, as the user `student`; `db/create.sql` does not create it. Then load the file into
 it. It drops the tables first (`DROP TABLE IF EXISTS`), so it can be loaded again to reset the data. It has two
 tables:
