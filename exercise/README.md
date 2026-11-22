@@ -17,3 +17,9 @@ Named after the week and in the order to do them: `1-10`, `1-20` … is week 1. 
 - [2-30 Web pages with EJS: static files, templates and XSS](2-30-ejs.md), *optional*
 - [2-50 The to-do API: your own JSON API](2-50-todo-api.md)
 - [2-40 The library](2-40-library.md), *cancelled*: do 2-50 instead
+
+## Assignments
+
+Module 2 of the examination. Deadlines and hand-in are in Canvas.
+
+- [Assignment 1: products and suppliers, in the terminal and as a JSON API](assignment-1.md)
