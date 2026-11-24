@@ -36,6 +36,20 @@ and takes over the parts you wrote by hand in 1-30:
 - **The response**: `res.send()` and `res.json()` set the status code, the `Content-Type` and the body for you.
 - **404**: a path with no route gets a 404 without any code of yours.
 
+Express tries the routes in the order you wrote them, and the first that matches the method and the path answers.
+When none matches, Express answers 404 itself:
+
+```mermaid
+flowchart LR
+  C[Client] -->|GET /api/hello| E[Express app]
+  E --> R1{"app.get('/')"}
+  R1 -->|no match| R2{"app.get('/api/hello')"}
+  R2 -->|match| H["route handler<br>res.json(...)"]
+  R2 -->|no match| N["404 from Express<br>Cannot GET ..."]
+  H -->|200, JSON| C
+  N -->|404, HTML| C
+```
+
 A route is a method, a path and a function, the *route handler*, that gets the request `req` and the response `res`:
 
 ```js
@@ -114,8 +128,8 @@ export PORT=3000
 npm run dev
 ```
 
-The line `.env not found. Continuing without it.` is fine: the script reads a `.env` file if there is one, and you
-have none yet.
+The line `.env not found. Continuing without it.`, maybe printed twice, is fine: the script reads a `.env` file if
+there is one, and you have none yet.
 
 In a second terminal, set the port and try it:
 
@@ -293,7 +307,20 @@ is), and check that `package.json` lists it under `dependencies`. After a fresh 
 <summary><code>Error: listen EADDRINUSE: address already in use :::3000</code></summary>
 
 A server is already running on port 3000, maybe the one from 1-30 in another terminal. Stop it with `Ctrl+C`, or
-choose another port with `export PORT=3001` in both terminals and start the server again.
+choose another port with `export PORT=3001` in both terminals and start the server again. If you cannot find the
+terminal, find the process that holds the port and stop it:
+
+```bash
+# Git Bash on Windows: the last column is the process id (PID)
+netstat -ano | grep :3000
+taskkill //PID <pid> //F
+
+# macOS and Linux
+lsof -i :3000
+kill <pid>
+```
+
+More in [Troubleshooting](../doc/troubleshooting.md).
 
 </details>
 
@@ -307,9 +334,9 @@ Your Node.js is older than 26. Check with `node --version` and install a newer o
 
 ## Challenge
 
-Make the Express app answer exactly as `http-app.js` did: `Content-Type: text/plain` on `/` (look at `res.type()`),
-the text `Not Found` on an unknown path (a last `app.use()` that answers with `res.status(404)`), and no
-`X-Powered-By` header (look at `app.disable()`). Do the tests still pass?
+Add a second route for `GET /` last in `src/app.js`, one that answers another text. Which of the two answers when you
+try `/` with `curl`? Move the new route above the first one and try again. Compare with the diagram in the
+background: what does it tell you about the order of the routes? Remove the extra route when you are done.
 
 ## Read more
 

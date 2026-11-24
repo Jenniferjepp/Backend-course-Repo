@@ -48,6 +48,20 @@ npm run check                # ESLint, Prettier and all the tests
 
 The `--` tells npm that what follows is for `node --test`, not for npm itself.
 
+### Only one file, or only some tests
+
+Name a file instead of a directory to run only that file. To run only some tests, give a part of their names with
+`--test-name-pattern`: only the tests whose name contains it run, the others are left out of the output.
+
+```bash
+npm test -- src/model/todo.test.js                      # only the tests in this file
+npm test -- --test-name-pattern="addTask" practice/1-20 # only the tests with addTask in the name
+```
+
+The pattern is matched against the name you gave the test, `test('addTask adds a task last in the list', ...)`, so
+good test names make it easy to pick the ones you work on. Run all the tests again when you are done, as
+`npm run check` does.
+
 ## Reading the output
 
 Each test gets a line: `✔` passed, `✖` failed. A summary follows, and last the failing tests with the reason:
@@ -210,7 +224,7 @@ describe('deleteTask', () => {
 
 - A test runs the code and checks the result with `assert`; `npm test` runs every `*.test.js` file.
 - Use `node:assert/strict`: `equal` for values, `deepEqual` for arrays and objects, `throws` and `rejects` for errors.
-- Hooks (`before`, `beforeEach` …) give every test the same starting point.
+- Hooks (`before`, `beforeEach` ...) give every test the same starting point.
 - `async` and `await` for code that waits; a server is tested on port 0 with `fetch()`.
 - Code that returns values is easier to test than code that prints.
 

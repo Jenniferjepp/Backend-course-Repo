@@ -11,6 +11,7 @@ This is what happens, step by step:
 - You write a test for each new route and for the error.
 - You move the API routes to a file of their own with `express.Router()`, and the tests show that the app still works
   without a change to them.
+- You add a *middleware* that prints each request in the server's terminal.
 
 You need 2-10 done; you go on with its app. When you are done, `src/` has one new file:
 
@@ -275,6 +276,17 @@ export default app
 `app.use('/api', apiRouter)` sends every request whose path starts with `/api` to the router, with `/api` taken off.
 `/api/hello/Ada` reaches the router as `/hello/Ada`.
 
+```mermaid
+flowchart LR
+  C[Client] -->|GET /api/hello/Ada| A[app.js]
+  A --> R1{"app.get('/')"}
+  R1 -->|no match| U{"app.use('/api', apiRouter)"}
+  U -->|"/api is taken off"| R[route/api.js]
+  R --> H{"router.get('/hello/:name')"}
+  H -->|"match, name = Ada"| J["res.json(...)"]
+  J -->|200, JSON| C
+```
+
 Run the tests, without changing them:
 
 ```bash
@@ -287,6 +299,49 @@ and know right away that nothing broke. Changing how code is structured without 
 
 Try `curl -i http://localhost:$PORT/api/nope` too. A path under `/api` that the router has no route for still gets
 the 404 from Express.
+
+## 6. A middleware that logs
+
+A *middleware* is a function that Express runs on the way to the routes. It gets `req` and `res`, as a route handler
+does, and a third parameter, `next`. It either answers, and the request stops there, or calls `next()`, and Express
+goes on to what comes after it in `app.js`, in the order the lines are written.
+
+Add a middleware that prints each request, right after `const app = express()`, so it comes before every route:
+
+```js
+const app = express()
+
+// Print each request, then let it go on to the routes
+app.use((req, res, next) => {
+  console.log(req.method, req.url)
+  next()
+})
+```
+
+`app.use()` without a path runs the function for every request. Save, and try a few requests:
+
+```bash
+curl -i http://localhost:$PORT/api/hello/Ada
+curl -i http://localhost:$PORT/api/nope
+```
+
+Look in the terminal where the server runs: one line per request, such as `GET /api/hello/Ada`, also for the path
+that gives 404. Run `npm test -- src` too: the same lines are printed among the tests, since each test sends a real
+request to the app.
+
+The logger is now first on the way of every request, and `next()` lets the request go on:
+
+```mermaid
+flowchart LR
+  C[Client] --> M["logger<br>console.log(...)"]
+  M -->|"next()"| R1{"app.get('/')"}
+  R1 -->|no match| U{"app.use('/api', apiRouter)"}
+  U -->|no route in the router matched| N["404 from Express"]
+  M -.->|"no next()"| X["no answer: the request hangs"]
+```
+
+Then take away the line `next()`, save and run the first `curl` again. It hangs: the middleware neither answers nor
+lets the request go on. Stop `curl` with `Ctrl+C` and put the line back.
 
 ## Check and commit
 
@@ -308,6 +363,8 @@ If you have a remote of your own, push with `git push`.
 - [ ] `npm run check` passes, with a test for each new route and for the error.
 - [ ] You can say when to use a route parameter and when the query string.
 - [ ] You can say why the tests did not change when you moved the routes.
+- [ ] The server prints a line for each request, from a middleware in `src/app.js`, and you can say what `next()`
+      does.
 
 <details>
 <summary>All routes give 404 after the move</summary>

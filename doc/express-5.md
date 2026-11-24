@@ -170,7 +170,7 @@ router.get('/users/:userId/books/:bookId', (req, res) => {
 ```
 
 `GET /users/7/books/42` gives `{"userId":"7","bookId":"42"}`. The values are always **strings**: turn an id into a
-number yourself, and answer 400 when it is not one, as in 2-20 and 2-40.
+number yourself, and answer 400 when it is not one, as in 2-20 and 2-50.
 
 Express 5 has two more forms you may meet:
 
