@@ -22,4 +22,7 @@ What did you get from Express that you did not ask for (look at the headers from
 
 Ok, I feel like that helped a lot and I understand better what Express does behind. It is very nice to not having to write everything out anymore.
 
+I just finished exercise 2-20 and I recognised many things such as the route parameters and query string from when I was working on a school-project where Deno was used to create an API. The router and the middlewear was new. 
+I came across some formatting problems when doing the npm run check, because I forgot that I was supposed to follow the designated formatting. But I learned that with Prettier I could fix them.
+
 pictures go in report/img/. -->
