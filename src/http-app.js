@@ -9,9 +9,9 @@ export function createApp() {
     }
 
     if (req.method === 'GET' && req.url === '/api/hello') {
-        res.writeHead(200, { 'Content-Type': 'application/json' })
-        res.end(JSON.stringify({ message: 'Hello World' }))
-        return
+      res.writeHead(200, { 'Content-Type': 'application/json' })
+      res.end(JSON.stringify({ message: 'Hello World' }))
+      return
     }
 
     res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' })

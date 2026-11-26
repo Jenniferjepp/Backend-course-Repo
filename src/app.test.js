@@ -27,15 +27,44 @@ test('an unknown path gives 404', async () => {
 })
 
 test('GET /api/hello answers with JSON', async () => {
-    // 1. Send a request to /api/hello with fetch()
-    const res = await fetch(`${baseUrl}/api/hello`)
+  // 1. Send a request to /api/hello with fetch()
+  const res = await fetch(`${baseUrl}/api/hello`)
 
-    // 2. Check that the status is 200
-    assert.equal(res.status, 200)
+  // 2. Check that the status is 200
+  assert.equal(res.status, 200)
 
-    // 3. Check that the content-type header contains application/json
-    assert.match(res.headers.get('content-type'), /application\/json/)
+  // 3. Check that the content-type header contains application/json
+  assert.match(res.headers.get('content-type'), /application\/json/)
 
-    // 4. Check that the body is { message: 'Hello World' }
-    assert.deepEqual(await res.json(), { message: 'Hello World' })
-  })
+  // 4. Check that the body is { message: 'Hello World' }
+  assert.deepEqual(await res.json(), { message: 'Hello World' })
+})
+
+test('GET /api/hello/:name greets the name', async () => {
+  const res = await fetch(`${baseUrl}/api/hello/Ada`)
+  assert.equal(res.status, 200)
+  assert.deepEqual(await res.json(), { message: 'Hello Ada' })
+})
+
+test('?lang=sv greets in Swedish', async () => {
+  // 1. Fetch /api/hello/Ada?lang=sv
+  const res = await fetch(`${baseUrl}/api/hello/Ada?lang=sv`)
+
+  // 2. Check that the status is 200
+  assert.equal(res.status, 200)
+
+  // 3. Check that the body is { message: 'Hej Ada' }
+  assert.deepEqual(await res.json(), { message: 'Hej Ada' })
+})
+
+test('an unknown language gives 400', async () => {
+  // 1. Fetch /api/hello/Ada?lang=xx
+  const res = await fetch(`${baseUrl}/api/hello/Ada?lang=xx`)
+
+  // 2. Check that the status is 400 and the Content-Type is JSON
+  assert.equal(res.status, 400)
+  assert.match(res.headers.get('content-type'), /application\/json/)
+
+  // 3. Check that the body is { error: 'Unknown language: xx' }
+  assert.deepEqual(await res.json(), { error: 'Unknown language: xx' })
+})

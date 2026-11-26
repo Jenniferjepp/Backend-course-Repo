@@ -26,15 +26,15 @@ test('an unknown path gives 404', async () => {
 })
 
 test('GET /api/hello answers with JSON', async () => {
-    // 1. Send a request to /api/hello with fetch()
-    const res = await fetch(`${baseUrl}/api/hello`)
+  // 1. Send a request to /api/hello with fetch()
+  const res = await fetch(`${baseUrl}/api/hello`)
 
-    // 2. Check that the status is 200
-    assert.equal(res.status, 200)
+  // 2. Check that the status is 200
+  assert.equal(res.status, 200)
 
-    // 3. Check that the content-type header contains application/json
-    assert.match(res.headers.get('content-type'), /application\/json/)
+  // 3. Check that the content-type header contains application/json
+  assert.match(res.headers.get('content-type'), /application\/json/)
 
-    // 4. Check that the body is { message: 'Hello World' }
-    assert.deepEqual(await res.json(), { message: 'Hello World' })
-  })
+  // 4. Check that the body is { message: 'Hello World' }
+  assert.deepEqual(await res.json(), { message: 'Hello World' })
+})
